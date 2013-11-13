@@ -1,4 +1,4 @@
-DatabaseCodeGenerator
+ContentProviderCodeGenerator
 =====================
 
 This project is a code generator written in Java used to generate Android code. Given a database schema JSON definition file, it will generate all the code you need to add the corresponding ContentProvider in your project.
