@@ -22,8 +22,8 @@ public class DatabaseGenerator {
     private static final String TAB4 = TAB3 + TAB1;
 
     private static final String BULK_STRING_VALUE = "            String value;\n";
-    private static final String PRIMARY_KEY_FORMAT = " + \", PRIMARY KEY (\" + %1$s + \")\"";
-    private static final String UNIQUE_FORMAT = " + \", UNIQUE (\" + %1$s + \")\"";
+    private static final String PRIMARY_KEY_FORMAT = " +\n" + "                    \", PRIMARY KEY (\" + %1$s + \")\"";
+    private static final String UNIQUE_FORMAT = " +\n                    \", UNIQUE (\" + %1$s + \")\"";
 
     private static final String URI_TYPE_FORMAT =
             "        %1$s%2$s(%3$s.TABLE_NAME%4$s, %3$s.TABLE_NAME, %3$s.%5$s)%6$s\n";
@@ -210,7 +210,7 @@ public class DatabaseGenerator {
                     }
 
                     if (!fieldData.dbSkipBulkInsert && !fieldData.dbIsAutoincrement) {
-                        sbBulkFields.append(".append(")
+                        sbBulkFields.append("\n                    .append(")
                                 .append("Columns.")
                                 .append(fieldData.dbConstantName).append(".getName())");
                         sbBulkParams.append("?");
@@ -239,7 +239,7 @@ public class DatabaseGenerator {
                     if (isNotLast) {
                         sbEnumFields.append(",\n");
                         sbProjection.append(",\n");
-                        sbCreateTable.append(" + \", \" + ");
+                        sbCreateTable.append(" + \", \" + \n                    ");
                         if (!fieldData.dbSkipBulkInsert && !fieldData.dbIsAutoincrement) {
                             sbBulkFields.append(".append(\", \")");
                             sbBulkParams.append(", ");
@@ -358,7 +358,7 @@ public class DatabaseGenerator {
 
                             sbUpgradeTableInsertDefaultValues.append(FieldData
                                     .getDefaultValue(fieldData.type));
-                        }
+                    }
                     }
 
                     sbUpgradeTable.append(String.format(

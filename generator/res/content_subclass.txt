@@ -51,7 +51,8 @@
             if (%2$sProvider.ACTIVATE_ALL_LOGS) {
                 Log.d(LOG_TAG, "%1$s | createTable start");
             }
-            db.execSQL("CREATE TABLE " + TABLE_NAME + " (" + %8$s%9$s%10$s + ");");
+            db.execSQL("CREATE TABLE " + TABLE_NAME +
+                    " (" + %8$s%9$s%10$s + ");");
 
 %11$s            if (%2$sProvider.ACTIVATE_ALL_LOGS) {
                 Log.d(LOG_TAG, "%1$s | createTable end");
