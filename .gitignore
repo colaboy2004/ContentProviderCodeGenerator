@@ -1,6 +1,7 @@
 bin
 gen
 generator/output
+generator/input
 out
 *.iml
 .project
