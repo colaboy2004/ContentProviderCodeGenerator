@@ -418,7 +418,6 @@ public class DatabaseGenerator {
                     }
                 }
 
-                //TODO
                 sbSubclasses.append(String.format(
                         contentSubClass,
                         tableData.dbClassName,

@@ -103,13 +103,15 @@ public %14$sclass %3$sProvider extends ContentProvider {
             Log.d(LOG_TAG, "Creating %3$sProvider database");
 
             // Create all tables here; each class has its own method
-%6$s        }
+%6$s            dbOnCreate(db, DATABASE_VERSION);
+        }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
             // Upgrade all tables here; each class has its own method
-%7$s        }
+%7$s            dbOnUpgrade(db, oldVersion, newVersion);
+        }
 
         @Override
         public void onOpen(SQLiteDatabase db) {
@@ -319,4 +321,74 @@ public %14$sclass %3$sProvider extends ContentProvider {
     public boolean onCreate() {
         return true;
     }
+
+    /**
+     * Add deletion trigger to db, with selection clause
+     * @param db
+     * @param triggerName
+     * @param deleteOnTable
+     * @param deleteFromTable
+     * @param selection
+     */
+    protected void addDeletionTrigger(SQLiteDatabase db, String triggerName,
+            String deleteOnTable, String deleteFromTable, String selection) {
+        db.execSQL("CREATE TRIGGER " + triggerName + " AFTER DELETE ON "
+                + deleteOnTable
+                + " BEGIN "
+                + "DELETE FROM " + deleteFromTable + " "
+                + "WHERE " + selection
+                + ";"
+                + " END;");
+    }
+
+    /**
+     * Convenient method for creating deletion trigger with one compare field only
+     * @param db
+     * @param triggerName
+     * @param deleteOnTable
+     * @param deleteFromTable
+     * @param newField
+     * @param oldField
+     */
+    protected void addDeletionTrigger(SQLiteDatabase db, String triggerName,
+            String deleteOnTable, String deleteFromTable, String newField, String oldField) {
+        db.execSQL("CREATE TRIGGER " + triggerName + " AFTER DELETE ON "
+                + deleteOnTable
+                + " BEGIN "
+                + "DELETE FROM " + deleteFromTable + " "
+                + "WHERE " + newField + "=old." + oldField
+                + ";"
+                + " END;");
+    }
+
+    /**
+     * Drop trigger in db
+     * @param db
+     * @param triggerName
+     */
+    protected void dropDeletionTrigger(SQLiteDatabase db, String triggerName) {
+        db.execSQL("DROP TRIGGER IF EXISTS " + triggerName);
+    }
+
+    /**
+     * Called inside database onCreate method.
+     * Implement this method to execute addition SQL commands such as creating triggers
+     * @param db
+     * @param dbVersion
+     */
+    protected void dbOnCreate(SQLiteDatabase db, int dbVersion) {
+        // No default implementation
+    }
+
+    /**
+     * Called inside database onUpgrade method.
+     * Implement this method to execute addition SQL commands such as drop triggers
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
+    protected void dbOnUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // No default implementation
+    }
+
 }
