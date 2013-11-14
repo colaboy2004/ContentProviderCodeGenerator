@@ -403,6 +403,22 @@ public class DatabaseGenerator {
                     }
                 }
 
+                String onConflictAttr = tableData.dbOnConflict;
+                String onConflict = "";
+                if (onConflictAttr != null && !onConflictAttr.isEmpty()) {
+                    if (onConflictAttr.equals("rollback")
+                            || onConflictAttr.equals("abort")
+                            || onConflictAttr.equals("fail")
+                            || onConflictAttr.equals("ignore")
+                            || onConflictAttr.equals("replace")) {
+                        onConflict = " + \n                    \" ON CONFLICT "
+                                + tableData.dbOnConflict.toUpperCase() +" \"";
+                    } else {
+                        throw new IllegalArgumentException("Please input valid on_conflict value");
+                    }
+                }
+
+                //TODO
                 sbSubclasses.append(String.format(
                         contentSubClass,
                         tableData.dbClassName,
@@ -416,11 +432,15 @@ public class DatabaseGenerator {
                         hasPreviousPrimaryKey ? String.format(PRIMARY_KEY_FORMAT,
                                 sbCreateTablePrimaryKey.toString()) : "",
                         hasPreviousUnique ? String.format(UNIQUE_FORMAT,
-                                sbCreateTableUnique.toString()) : "", sbIndexes.toString(),
-                        sbBulkFields.toString(), sbBulkParams.toString(),
-                        hasTextField ? BULK_STRING_VALUE : "", sbBulkValues.toString(),
-                        tableData.version, sbUpgradeTableComment.toString(), sbUpgradeTable
-                                .toString()));
+                                sbCreateTableUnique.toString()) + onConflict : "",
+                        sbIndexes.toString(),
+                        sbBulkFields.toString(),
+                        sbBulkParams.toString(),
+                        hasTextField ? BULK_STRING_VALUE : "",
+                        sbBulkValues.toString(),
+                        tableData.version,
+                        sbUpgradeTableComment.toString(),
+                        sbUpgradeTable.toString()));
             }
 
             FileCache.saveFile(

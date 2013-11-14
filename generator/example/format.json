@@ -22,6 +22,8 @@
             "table_name":"MyTable", // Required. Name of your table
             "version":1, // Optional. Version of the database where this table is added to the
                     database. Default is 1.
+            "on_conflict":"replace" // Optional. Specify the conflict algorithm. can be "rollback",
+                    "abort", "fail", "ignore", "replace"
             "fields":[ // fields of the table
                 {
                     "name":"id", // Required. Name of the field

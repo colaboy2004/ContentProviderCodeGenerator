@@ -16,6 +16,7 @@ public class TableData {
     public String dbClassName = null;
     public String dbTableName = null;
     public String dbConstantName = null;
+    public String dbOnConflict = null;
 
     public int version;
 
@@ -28,6 +29,7 @@ public class TableData {
         dbClassName = contentClassesPrefix + json.getString("table_name");
         dbTableName = NameUtils.createLowerCamelCaseName(dbClassName);
         dbConstantName = NameUtils.createConstantName(dbTableName);
+        dbOnConflict = json.optString("on_conflict");
 
         version = json.optInt("version", 1);
         if (version > dbVersion) {
