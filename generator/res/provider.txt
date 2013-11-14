@@ -167,7 +167,7 @@ public %14$sclass %3$sProvider extends ContentProvider {
         Uri resultUri;
 
         switch (uriType) {
-%9$s                id = db.insert(uriType.getTableName(), "foo", values);
+%9$s                id = db.insertOrThrow(uriType.getTableName(), "foo", values);
                 resultUri = id == -1 ? null : ContentUris.withAppendedId(uri, id);
                 break;
             default:
