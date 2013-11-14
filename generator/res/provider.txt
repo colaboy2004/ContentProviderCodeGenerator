@@ -391,4 +391,13 @@ public %14$sclass %3$sProvider extends ContentProvider {
         // No default implementation
     }
 
+    /**
+     * Drop table in db
+     * @param db
+     * @param tableName
+     */
+    protected void dropTable(SQLiteDatabase db, String tableName) {
+        db.execSQL("DROP TABLE IF EXISTS " + tableName);
+    }
+
 }
