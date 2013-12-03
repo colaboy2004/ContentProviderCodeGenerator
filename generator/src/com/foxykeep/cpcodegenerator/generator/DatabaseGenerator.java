@@ -127,6 +127,7 @@ public class DatabaseGenerator {
                 sbCreateTable.setLength(0);
                 sbCreateTablePrimaryKey.setLength(0);
                 sbUpgradeTableComment.setLength(0);
+                sbCreateTableUnique.setLength(0);
                 sbUpgradeTable.setLength(0);
                 sbIndexes.setLength(0);
                 sbBulkFields.setLength(0);
