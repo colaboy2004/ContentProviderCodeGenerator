@@ -15,7 +15,9 @@
                 Default is "".
         "has_subclasses":false, // Optional. Whether the generated provider has subclasses. This
                 will remove the final keyword and change some fields to protected
-        "version":1 // Required. Version of the database.
+        "version":1, // Required. Version of the database.
+        "use_sql_cipher":false // Optional. Set true if you are using sqlCipher, the generated
+            // provider class will be abstract and you need to implement getDbPassword()
     },
     "tables":[ // your tables
         {

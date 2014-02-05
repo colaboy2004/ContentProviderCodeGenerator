@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Class-Path: /Users/williamleung/Documents/workspace/ContentProviderCod
+ eGenerator/generator/out/production/CPCodeGenerator/com/foxykeep
+Main-Class: com.foxykeep.cpcodegenerator.Main
+
