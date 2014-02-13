@@ -599,7 +599,8 @@ public class DatabaseGenerator {
                 sbUpgradeDatabaseComment.toString(), hasProviderSubclasses ? "" : "final ",
                 useSqlCipher?"SQLiteDatabase.loadLibs(getContext());\n        ":"",
                 useSqlCipher?"abstract ":"",
-                useSqlCipher?"getDbPassword()":""));
+                useSqlCipher?"getDbPassword()":"",
+                useSqlCipher?"protected abstract String getDbPassword();":""));
 
     }
 

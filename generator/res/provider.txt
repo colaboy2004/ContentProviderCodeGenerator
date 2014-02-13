@@ -402,6 +402,6 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
     }
 
-    protected abstract String getDbPassword();
+    %18$s
 
 }
