@@ -31,7 +31,7 @@
                     "name":"id", // Required. Name of the field
                     "type":"integer", // Required. Type of the field. can be "int", "integer",
                             "long", "boolean", "date", "float", "double", "real", "string",
-                            "String", "text"
+                            "String", "text", "blob", "Blob"
                     "is_primary_key":true, // Optional. Whether the field is part of the primary
                             key. Multiple fields can have this value set to true (for example if
                             you have a complex primary key). Default is false.
