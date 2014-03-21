@@ -370,13 +370,28 @@ public class DatabaseGenerator {
                         }
                     }
 
+                    String onConflictAttr = tableData.dbOnConflict;
+                    String onConflict = "";
+                    if (onConflictAttr != null && !onConflictAttr.isEmpty()) {
+                        if (onConflictAttr.equals("rollback")
+                                || onConflictAttr.equals("abort")
+                                || onConflictAttr.equals("fail")
+                                || onConflictAttr.equals("ignore")
+                                || onConflictAttr.equals("replace")) {
+                            onConflict = " + \n                    \" ON CONFLICT "
+                                    + tableData.dbOnConflict.toUpperCase() +" \"";
+                        } else {
+                            throw new IllegalArgumentException("Please input valid on_conflict value");
+                        }
+                    }
+
                     sbUpgradeTable.append(String.format(
                             contentSubClassUpgrade, curVers,
                             sbUpgradeTableCreateTmpTable.toString(),
                             hasPreviousPrimaryKey ? String.format(PRIMARY_KEY_FORMAT,
                                     sbUpgradeTableCreateTmpTablePrimaryKey.toString()) : "",
                             hasPreviousUnique ? String.format(UNIQUE_FORMAT,
-                                    sbUpgradeTableCreateTmpTableUnique.toString()) : "",
+                                    sbUpgradeTableCreateTmpTableUnique.toString()) + onConflict : "",
                             sbUpgradeTableInsertFields.toString(),
                             sbUpgradeTableInsertDefaultValues.toString()));
 
