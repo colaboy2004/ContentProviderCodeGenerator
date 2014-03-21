@@ -255,6 +255,10 @@ public class DatabaseGenerator {
                 // Upgrade management
                 maxUpgradeVersion = tableData.version;
                 minUpgradeWithoutChanges = -1;
+                if (tableData.version + 1 <= dbVersion) {
+                    // has upgrade, reset some values
+                    hasPreviousUnique = false;
+                }
                 for (int curVers = tableData.version + 1; curVers <= dbVersion; curVers++) {
                     List<FieldData> upgradeFieldDataList =
                             tableData.upgradeFieldMap.get(curVers);
@@ -346,7 +350,7 @@ public class DatabaseGenerator {
                         if (fieldData.version < curVers) {
                             // The field is an old one and is added to the insert list
                             if (hasPreviousInsertFields) {
-                                sbUpgradeTableInsertFields.append(" + \", \" + ");
+                                sbUpgradeTableInsertFields.append(" + \", \" + \n" + TAB4 + TAB2);
                             }
                             hasPreviousInsertFields = true;
 
@@ -363,7 +367,7 @@ public class DatabaseGenerator {
 
                             sbUpgradeTableInsertDefaultValues.append(FieldData
                                     .getDefaultValue(fieldData.type));
-                    }
+                        }
                     }
 
                     sbUpgradeTable.append(String.format(
