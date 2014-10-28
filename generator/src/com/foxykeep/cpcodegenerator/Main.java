@@ -93,6 +93,7 @@ public class Main {
                 int dbVersion;
                 boolean hasProviderSubclasses;
                 boolean useSqlCipher;
+                boolean buildTimeAuthorityPackage;
                 classPackage = jsonDatabase.getString("package");
                 classesPrefix = jsonDatabase.getString("classes_prefix");
                 contentClassesPrefix = jsonDatabase.optString("content_classes_prefix", "");
@@ -102,13 +103,15 @@ public class Main {
                 dbVersion = jsonDatabase.getInt("version");
                 hasProviderSubclasses = jsonDatabase.optBoolean("has_subclasses");
                 useSqlCipher = jsonDatabase.optBoolean("use_sql_cipher");
+                buildTimeAuthorityPackage = jsonDatabase.optBoolean("build_time_authority_package");
 
                 ArrayList<TableData> classDataList = TableData.getClassesData(root.getJSONArray(
                         "tables"), contentClassesPrefix, dbVersion);
 
                 // Database
                 DatabaseGenerator.generate(fileName, classPackage, dbVersion, dbAuthorityPackage,
-                        classesPrefix, classDataList, providerFolder, hasProviderSubclasses, useSqlCipher);
+                        classesPrefix, classDataList, providerFolder, hasProviderSubclasses,
+                        useSqlCipher, buildTimeAuthorityPackage);
 
                 FileCache.saveFile(PathUtils.getAndroidFullPath(fileName, classPackage,
                         providerFolder + "." + PathUtils.UTIL) + "ColumnMetadata.java",

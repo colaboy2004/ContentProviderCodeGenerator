@@ -7,7 +7,7 @@
                 database. If not present, package will be used.
         "classes_prefix":"MyApplication", // Required. Classes prefix used to name the
                 ContentProvider
-        "provider_folder":"data.provider" // Optional. End of the package where is stored the
+        "provider_folder":"data.provider", // Optional. End of the package where is stored the
                 ContentProvider. Default is "data.provider".
         "content_classes_prefix":"Db", // Optional. Prefix which will be added to the table classes
                 in the Content class. Useful if you also have a model class with the same name as
@@ -16,8 +16,10 @@
         "has_subclasses":false, // Optional. Whether the generated provider has subclasses. This
                 will remove the final keyword and change some fields to protected
         "version":1, // Required. Version of the database.
-        "use_sql_cipher":false // Optional. Set true if you are using sqlCipher, the generated
+        "use_sql_cipher":false, // Optional. Set true if you are using sqlCipher, the generated
             // provider class will be abstract and you need to implement getDbPassword()
+        "build_time_authority_package":false // optional. Set true if you want to set the authority
+                package automatically by using BuildConfig.PACKAGE_NAME.
     },
     "tables":[ // your tables
         {

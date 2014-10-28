@@ -1,5 +1,6 @@
 package %1$s.%11$s;
 
+%20$s
 %2$s
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
@@ -34,7 +35,7 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
 
     protected static final String DATABASE_NAME = "%3$sProvider.db";
 
-    public static final String AUTHORITY = "%4$s.provider.%3$sProvider";
+    public static final String AUTHORITY = %19$s"%4$s.provider.%3$sProvider";
 
     static {
         Uri.parse("content://" + AUTHORITY + "/integrityCheck");

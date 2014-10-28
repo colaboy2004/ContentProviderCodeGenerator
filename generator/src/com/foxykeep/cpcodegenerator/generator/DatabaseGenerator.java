@@ -54,7 +54,7 @@ public class DatabaseGenerator {
     public static void generate(final String fileName, final String classPackage,
             final int dbVersion, final String dbAuthorityPackage, final String classesPrefix,
             final ArrayList<TableData> tableDataList, final String providerFolder,
-            boolean hasProviderSubclasses, boolean useSqlCipher) {
+            boolean hasProviderSubclasses, boolean useSqlCipher, boolean buildTimeAuthorityPackage) {
         if (classPackage == null || classPackage.length() == 0 || classesPrefix == null
                 || classesPrefix.length() == 0 || tableDataList == null || tableDataList.isEmpty()) {
             System.out.println("Error : You must provide a class package, a class prefix and a " +
@@ -64,7 +64,7 @@ public class DatabaseGenerator {
         generateContentClass(fileName, classPackage, classesPrefix, tableDataList, dbVersion,
                 providerFolder, useSqlCipher);
         generateProviderClass(fileName, classPackage, dbVersion, dbAuthorityPackage, classesPrefix,
-                tableDataList, providerFolder, hasProviderSubclasses, useSqlCipher);
+                tableDataList, providerFolder, hasProviderSubclasses, useSqlCipher, buildTimeAuthorityPackage);
     }
 
     private static void generateContentClass(final String fileName, final String classPackage,
@@ -482,7 +482,8 @@ public class DatabaseGenerator {
     private static void generateProviderClass(final String fileName, final String classPackage,
             final int dbVersion, final String dbAuthorityPackage, final String classesPrefix,
             final ArrayList<TableData> tableDataList, final String providerFolder,
-            boolean hasProviderSubclasses, final boolean useSqlCipher) {
+            boolean hasProviderSubclasses, final boolean useSqlCipher,
+            final boolean buildTimeAuthorityPackage) {
 
         final StringBuilder sbImports = new StringBuilder();
         final StringBuilder sbUriTypes = new StringBuilder();
@@ -611,15 +612,27 @@ public class DatabaseGenerator {
         }
 
         FileCache.saveFile(PathUtils.getAndroidFullPath(fileName, classPackage, providerFolder)
-                + classesPrefix + "Provider.java", String.format(providerString, classPackage,
-                sbImports.toString(), classesPrefix, dbAuthorityPackage, sbUriTypes.toString(),
-                sbCreateTables.toString(), sbUpgradeTables.toString(), sbCaseWithId.toString(),
-                sbCaseWithoutId.toString(), sbBulk.toString(), providerFolder, dbVersion,
-                sbUpgradeDatabaseComment.toString(), hasProviderSubclasses ? "" : "final ",
+                + classesPrefix + "Provider.java",
+                String.format(providerString, classPackage,
+                sbImports.toString(),
+                classesPrefix,
+                buildTimeAuthorityPackage?"":dbAuthorityPackage,
+                sbUriTypes.toString(),
+                sbCreateTables.toString(),
+                sbUpgradeTables.toString(),
+                sbCaseWithId.toString(),
+                sbCaseWithoutId.toString(),
+                sbBulk.toString(),
+                providerFolder,
+                dbVersion,
+                sbUpgradeDatabaseComment.toString(),
+                hasProviderSubclasses ? "" : "final ",
                 useSqlCipher?"SQLiteDatabase.loadLibs(getContext());\n        ":"",
                 useSqlCipher?"abstract ":"",
                 useSqlCipher?"getDbPassword()":"",
-                useSqlCipher?"protected abstract String getDbPassword();":""));
+                useSqlCipher?"protected abstract String getDbPassword();":"",
+                buildTimeAuthorityPackage?"BuildConfig.PACKAGE_NAME + ":"",
+                buildTimeAuthorityPackage?"import "+classPackage+".BuildConfig;":""));
 
     }
 
