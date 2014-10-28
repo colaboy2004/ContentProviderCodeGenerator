@@ -25,6 +25,10 @@ import java.util.ArrayList;
  * <p>
  * (More information available https://github.com/foxykeep/ContentProviderCodeGenerator)
  * <p>
+ * This is a special fork with additional features
+ * <p>
+ * https://github.com/colaboy2004/ContentProviderCodeGenerator
+ * <p>
  * Do not modify this class
  */
 public %16$s%14$sclass %3$sProvider extends ContentProvider {
