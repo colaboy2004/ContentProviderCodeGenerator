@@ -631,7 +631,7 @@ public class DatabaseGenerator {
                 useSqlCipher?"abstract ":"",
                 useSqlCipher?"getDbPassword()":"",
                 useSqlCipher?"protected abstract String getDbPassword();":"",
-                buildTimeAuthorityPackage?"BuildConfig.PACKAGE_NAME + ":"",
+                buildTimeAuthorityPackage?"BuildConfig.APPLICATION_ID + ":"",
                 buildTimeAuthorityPackage?"import "+classPackage+".BuildConfig;":""));
 
     }
