@@ -255,10 +255,6 @@ public class DatabaseGenerator {
                 // Upgrade management
                 maxUpgradeVersion = tableData.version;
                 minUpgradeWithoutChanges = -1;
-                if (tableData.version + 1 <= dbVersion) {
-                    // has upgrade, reset some values
-                    hasPreviousUnique = false;
-                }
                 for (int curVers = tableData.version + 1; curVers <= dbVersion; curVers++) {
                     List<FieldData> upgradeFieldDataList =
                             tableData.upgradeFieldMap.get(curVers);
@@ -293,6 +289,7 @@ public class DatabaseGenerator {
                     hasPreviousInsertFields = false;
                     hasPreviousInsertDefaultValues = false;
                     hasPreviousPrimaryKey = false;
+                    hasPreviousUnique = false;
 
                     for (FieldData fieldData : tableData.fieldList) {
                         if (fieldData.version > curVers) {
