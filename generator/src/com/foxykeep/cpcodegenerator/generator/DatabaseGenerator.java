@@ -54,7 +54,8 @@ public class DatabaseGenerator {
     public static void generate(final String fileName, final String classPackage,
             final int dbVersion, final String dbAuthorityPackage, final String classesPrefix,
             final ArrayList<TableData> tableDataList, final String providerFolder,
-            boolean hasProviderSubclasses, boolean useSqlCipher, boolean buildTimeAuthorityPackage) {
+            boolean hasProviderSubclasses, boolean useSqlCipher, boolean buildTimeAuthorityPackage,
+            boolean dropTablesOnUpgrade) {
         if (classPackage == null || classPackage.length() == 0 || classesPrefix == null
                 || classesPrefix.length() == 0 || tableDataList == null || tableDataList.isEmpty()) {
             System.out.println("Error : You must provide a class package, a class prefix and a " +
@@ -64,7 +65,8 @@ public class DatabaseGenerator {
         generateContentClass(fileName, classPackage, classesPrefix, tableDataList, dbVersion,
                 providerFolder, useSqlCipher);
         generateProviderClass(fileName, classPackage, dbVersion, dbAuthorityPackage, classesPrefix,
-                tableDataList, providerFolder, hasProviderSubclasses, useSqlCipher, buildTimeAuthorityPackage);
+                tableDataList, providerFolder, hasProviderSubclasses, useSqlCipher, buildTimeAuthorityPackage,
+                dropTablesOnUpgrade);
     }
 
     private static void generateContentClass(final String fileName, final String classPackage,
@@ -480,7 +482,7 @@ public class DatabaseGenerator {
             final int dbVersion, final String dbAuthorityPackage, final String classesPrefix,
             final ArrayList<TableData> tableDataList, final String providerFolder,
             boolean hasProviderSubclasses, final boolean useSqlCipher,
-            final boolean buildTimeAuthorityPackage) {
+            final boolean buildTimeAuthorityPackage, final boolean dropTablesOnUpgrade) {
 
         final StringBuilder sbImports = new StringBuilder();
         final StringBuilder sbUriTypes = new StringBuilder();
@@ -535,8 +537,15 @@ public class DatabaseGenerator {
             sbCreateTables.append("            ").append(tableData.dbClassName)
                     .append(".createTable(db);\n");
 
-            sbUpgradeTables.append("            ").append(tableData.dbClassName)
-                    .append(".upgradeTable(db, oldVersion, newVersion);\n");
+            if (dropTablesOnUpgrade) {
+                sbUpgradeTables.append("            ")
+                        .append("db.execSQL(\"DROP TABLE IF EXISTS \" + ")
+                        .append(tableData.dbClassName)
+                        .append(".TABLE_NAME);\n");
+            } else {
+                sbUpgradeTables.append("            ").append(tableData.dbClassName)
+                        .append(".upgradeTable(db, oldVersion, newVersion);\n");
+            }
 
             sbCaseWithId.append("            case ").append(tableData.dbConstantName)
                     .append("_ID:\n");
@@ -544,6 +553,10 @@ public class DatabaseGenerator {
                     .append(":\n");
 
             sbBulk.append(String.format(bulkText, tableData.dbConstantName, tableData.dbClassName));
+        }
+
+        if (dropTablesOnUpgrade) {
+            sbUpgradeTables.append("            ").append("onCreate(db);\n");
         }
 
         // Upgrade comments in the provider
