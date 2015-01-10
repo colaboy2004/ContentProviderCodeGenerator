@@ -89,7 +89,7 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
     public synchronized SQLiteDatabase getDatabase(Context context) {
         // Always return the cached database, if we've got one
         if (mDatabase == null || !mDatabase.isOpen()) {
-            DatabaseHelper helper = new DatabaseHelper(context, DATABASE_NAME);
+            DatabaseHelper helper = new DatabaseHelper(context, getDbNamePrefix() + DATABASE_NAME);
             mDatabase = helper.getWritableDatabase(%17$s);
             if (mDatabase != null) {
                 mDatabase.setLockingEnabled(true);
@@ -405,6 +405,13 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
      */
     protected void dropTable(SQLiteDatabase db, String tableName) {
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
+    }
+
+    /**
+     * Get prefix for database file name, if any
+     */
+    protected String getDbNamePrefix() {
+        return "";
     }
 
     %18$s
