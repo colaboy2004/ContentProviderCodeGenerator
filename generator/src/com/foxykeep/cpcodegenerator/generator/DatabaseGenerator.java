@@ -304,7 +304,7 @@ public class DatabaseGenerator {
                         }
                         hasPreviousUpgradeElements = true;
 
-                        sbUpgradeTableCreateTmpTable.append("Columns.")
+                        sbUpgradeTableCreateTmpTable.append("\n                        Columns.")
                                 .append(fieldData.dbConstantName).append(".getName() + \" \" + ")
                                 .append("Columns.").append(fieldData.dbConstantName)
                                 .append(".getType()");
