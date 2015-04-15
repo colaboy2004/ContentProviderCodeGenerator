@@ -139,6 +139,7 @@ public class DatabaseGenerator {
                 sbBulkFields.setLength(0);
                 sbBulkParams.setLength(0);
                 sbBulkValues.setLength(0);
+                sbUpgradeTableCreateTmpTableUnique.setLength(0);
                 hasPreviousPrimaryKey = false;
                 hasPreviousUnique = false;
                 hasAutoIncrementPrimaryKey = false;
