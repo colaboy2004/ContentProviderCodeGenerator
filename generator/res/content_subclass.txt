@@ -1,6 +1,6 @@
 
     /**
-     * Created in version %16$d
+     * Created in version %15$d
      */
     public static final class %1$s extends %2$sContent {
 
@@ -39,10 +39,6 @@
             }
         }
 
-        protected static String[] PROJECTION = new String[] {
-%7$s
-        };
-
         private %1$s() {
             // No private constructor
         }
@@ -52,20 +48,20 @@
                 Log.d(LOG_TAG, "%1$s | createTable start");
             }
             db.execSQL("CREATE TABLE " + TABLE_NAME +
-                    " (" + %8$s%9$s%10$s + ");");
+                    " (" + %7$s%8$s%9$s + ");");
 
-%11$s            if (%2$sProvider.ACTIVATE_ALL_LOGS) {
+%10$s            if (%2$sProvider.ACTIVATE_ALL_LOGS) {
                 Log.d(LOG_TAG, "%1$s | createTable end");
             }
         }
 
-        // Version %16$d : Creation of the table
-%17$s        public static void upgradeTable(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Version %15$d : Creation of the table
+%16$s        public static void upgradeTable(SQLiteDatabase db, int oldVersion, int newVersion) {
             if (%2$sProvider.ACTIVATE_ALL_LOGS) {
                 Log.d(LOG_TAG, "%1$s | upgradeTable start");
             }
 
-            if (oldVersion < %16$d) {
+            if (oldVersion < %15$d) {
                 Log.i(LOG_TAG, "Upgrading from version " + oldVersion + " to " + newVersion
                         + ", data will be lost!");
 
@@ -73,7 +69,7 @@
                 createTable(db);
                 return;
             }
-%18$s
+%17$s
 
             if (oldVersion != newVersion) {
                 throw new IllegalStateException("Error upgrading the database to version "
@@ -86,10 +82,10 @@
         }
 
         static String getBulkInsertString() {
-            return new StringBuilder("INSERT INTO ").append(TABLE_NAME).append(" ( ")%12$s.append(" ) VALUES (%13$s)").toString();
+            return new StringBuilder("INSERT INTO ").append(TABLE_NAME).append(" ( ")%11$s.append(" ) VALUES (%12$s)").toString();
         }
 
         static void bindValuesInBulkInsert(SQLiteStatement stmt, ContentValues values) {
             int i = 1;
-%14$s%15$s        }
+%13$s%14$s        }
     }

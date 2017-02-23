@@ -450,7 +450,7 @@ public class DatabaseGenerator {
                         classesPrefix.toLowerCase(),
                         tableData.dbTableName.toLowerCase(),
                         sbEnumFields.toString(),
-                        sbProjection.toString(),
+                        //sbProjection.toString(),
                         sbCreateTable.toString(),
                         hasPreviousPrimaryKey ? String.format(PRIMARY_KEY_FORMAT,
                                 sbCreateTablePrimaryKey.toString()) : "",
