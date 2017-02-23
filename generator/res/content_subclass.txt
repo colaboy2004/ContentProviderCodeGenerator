@@ -56,7 +56,7 @@
         }
 
         // Version %15$d : Creation of the table
-%16$s        public static void upgradeTable(SQLiteDatabase db, int oldVersion, int newVersion) {
+%16$s        static void upgradeTable(SQLiteDatabase db, int oldVersion, int newVersion) {
             if (%2$sProvider.ACTIVATE_ALL_LOGS) {
                 Log.d(LOG_TAG, "%1$s | upgradeTable start");
             }
