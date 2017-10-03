@@ -199,7 +199,9 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
             ContentProviderResult[] results = new ContentProviderResult[numOperations];
             for (int i = 0; i < numOperations; i++) {
                 results[i] = operations.get(i).apply(this, results, i);
-                db.yieldIfContendedSafely();
+                if (i % 5 == 0) {
+                	db.yieldIfContendedSafely();
+                }
             }
             db.setTransactionSuccessful();
             return results;
@@ -331,11 +333,11 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
 
     /**
      * Add deletion trigger to db, with selection clause
-     * @param db
-     * @param triggerName
-     * @param deleteOnTable
-     * @param deleteFromTable
-     * @param selection
+     * @param db 				database
+     * @param triggerName 		trigger name
+     * @param deleteOnTable 	delete on table
+     * @param deleteFromTable 	delete from table
+     * @param selection 		selection
      */
     protected void addDeletionTrigger(SQLiteDatabase db, String triggerName,
             String deleteOnTable, String deleteFromTable, String selection) {
@@ -350,12 +352,12 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
 
     /**
      * Convenient method for creating deletion trigger with one compare field only
-     * @param db
-     * @param triggerName
-     * @param deleteOnTable
-     * @param deleteFromTable
-     * @param newField
-     * @param oldField
+     * @param db 				database
+     * @param triggerName 		trigger name
+     * @param deleteOnTable 	delete on table
+     * @param deleteFromTable 	delete from table
+     * @param newField 			new field
+     * @param oldField			old field
      */
     protected void addDeletionTrigger(SQLiteDatabase db, String triggerName,
             String deleteOnTable, String deleteFromTable, String newField, String oldField) {
@@ -370,8 +372,8 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
 
     /**
      * Drop trigger in db
-     * @param db
-     * @param triggerName
+     * @param db 			database
+     * @param triggerName 	trigger name
      */
     protected void dropDeletionTrigger(SQLiteDatabase db, String triggerName) {
         db.execSQL("DROP TRIGGER IF EXISTS " + triggerName);
@@ -380,8 +382,8 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
     /**
      * Called inside database onCreate method.
      * Implement this method to execute addition SQL commands such as creating triggers
-     * @param db
-     * @param dbVersion
+     * @param db 		database
+     * @param dbVersion database version
      */
     protected void dbOnCreate(SQLiteDatabase db, int dbVersion) {
         // No default implementation
@@ -390,9 +392,9 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
     /**
      * Called inside database onUpgrade method.
      * Implement this method to execute addition SQL commands such as drop triggers
-     * @param db
-     * @param oldVersion
-     * @param newVersion
+     * @param db 			database
+     * @param oldVersion	old version
+     * @param newVersion	new version
      */
     protected void dbOnUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // No default implementation
@@ -400,8 +402,8 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
 
     /**
      * Drop table in db
-     * @param db
-     * @param tableName
+     * @param db 		database
+     * @param tableName table name
      */
     protected void dropTable(SQLiteDatabase db, String tableName) {
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
