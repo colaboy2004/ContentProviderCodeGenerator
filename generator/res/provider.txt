@@ -199,7 +199,7 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
             ContentProviderResult[] results = new ContentProviderResult[numOperations];
             for (int i = 0; i < numOperations; i++) {
                 results[i] = operations.get(i).apply(this, results, i);
-                if (i % 5 == 0) {
+                if (i %% 5 == 0) {
                 	db.yieldIfContendedSafely();
                 }
             }
