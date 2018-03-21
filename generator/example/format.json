@@ -18,6 +18,8 @@
         "version":1, // Required. Version of the database.
         "use_sql_cipher":false, // Optional. Set true if you are using sqlCipher, the generated
             // provider class will be abstract and you need to implement getDbPassword()
+        "custom_database_class_import": "", // Optional. Set custom database class import. e.g. com.app.database.
+            // set use_sql_cipher to false if you want to use this property
         "build_time_authority_package":false, // optional. Set true if you want to set the authority
                 package automatically by using BuildConfig.APPLICATION_ID.
         "drop_tables_on_upgrade":false //optional. Set true to drop all tables on upgrade.

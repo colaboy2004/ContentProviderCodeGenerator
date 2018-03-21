@@ -93,6 +93,7 @@ public class Main {
                 int dbVersion;
                 boolean hasProviderSubclasses;
                 boolean useSqlCipher;
+                String customDatabaseClassImport;
                 boolean buildTimeAuthorityPackage;
                 boolean dropTablesOnUpgrade;
 
@@ -105,6 +106,7 @@ public class Main {
                 dbVersion = jsonDatabase.getInt("version");
                 hasProviderSubclasses = jsonDatabase.optBoolean("has_subclasses");
                 useSqlCipher = jsonDatabase.optBoolean("use_sql_cipher");
+                customDatabaseClassImport = jsonDatabase.optString("custom_database_class_import", "");
                 buildTimeAuthorityPackage = jsonDatabase.optBoolean("build_time_authority_package");
                 dropTablesOnUpgrade = jsonDatabase.optBoolean("drop_tables_on_upgrade");
 
@@ -114,7 +116,7 @@ public class Main {
                 // Database
                 DatabaseGenerator.generate(fileName, classPackage, dbVersion, dbAuthorityPackage,
                         classesPrefix, classDataList, providerFolder, hasProviderSubclasses,
-                        useSqlCipher, buildTimeAuthorityPackage, dropTablesOnUpgrade);
+                        useSqlCipher, buildTimeAuthorityPackage, dropTablesOnUpgrade, customDatabaseClassImport);
 
                 FileCache.saveFile(PathUtils.getAndroidFullPath(fileName, classPackage,
                         providerFolder + "." + PathUtils.UTIL) + "ColumnMetadata.java",

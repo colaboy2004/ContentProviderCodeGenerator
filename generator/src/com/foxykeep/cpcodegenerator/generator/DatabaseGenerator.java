@@ -55,7 +55,7 @@ public class DatabaseGenerator {
             final int dbVersion, final String dbAuthorityPackage, final String classesPrefix,
             final ArrayList<TableData> tableDataList, final String providerFolder,
             boolean hasProviderSubclasses, boolean useSqlCipher, boolean buildTimeAuthorityPackage,
-            boolean dropTablesOnUpgrade) {
+            boolean dropTablesOnUpgrade, String customDatabaseClassImport) {
         if (classPackage == null || classPackage.length() == 0 || classesPrefix == null
                 || classesPrefix.length() == 0 || tableDataList == null || tableDataList.isEmpty()) {
             System.out.println("Error : You must provide a class package, a class prefix and a " +
@@ -63,15 +63,16 @@ public class DatabaseGenerator {
             return;
         }
         generateContentClass(fileName, classPackage, classesPrefix, tableDataList, dbVersion,
-                providerFolder, useSqlCipher);
+                providerFolder, useSqlCipher, customDatabaseClassImport);
         generateProviderClass(fileName, classPackage, dbVersion, dbAuthorityPackage, classesPrefix,
                 tableDataList, providerFolder, hasProviderSubclasses, useSqlCipher, buildTimeAuthorityPackage,
-                dropTablesOnUpgrade);
+                dropTablesOnUpgrade, customDatabaseClassImport);
     }
 
     private static void generateContentClass(final String fileName, final String classPackage,
             final String classesPrefix, final ArrayList<TableData> tableDataList,
-            final int dbVersion, final String providerFolder, final boolean useSqlCipher) {
+            final int dbVersion, final String providerFolder, final boolean useSqlCipher,
+            final String customDatabaseClassImport) {
 
         final StringBuilder sb = new StringBuilder();
         BufferedReader br;
@@ -85,6 +86,9 @@ public class DatabaseGenerator {
             if (useSqlCipher) {
                 contentClass = contentClass.replace("android.database.sqlite."
                         , "net.sqlcipher.database.");
+            } else if (customDatabaseClassImport != null && !customDatabaseClassImport.isEmpty()) {
+                contentClass = contentClass.replace("android.database.sqlite."
+                        , customDatabaseClassImport);
             }
 
             sb.setLength(0);
@@ -483,7 +487,8 @@ public class DatabaseGenerator {
             final int dbVersion, final String dbAuthorityPackage, final String classesPrefix,
             final ArrayList<TableData> tableDataList, final String providerFolder,
             boolean hasProviderSubclasses, final boolean useSqlCipher,
-            final boolean buildTimeAuthorityPackage, final boolean dropTablesOnUpgrade) {
+            final boolean buildTimeAuthorityPackage, final boolean dropTablesOnUpgrade,
+            final String customDatabaseClassImport) {
 
         final StringBuilder sbImports = new StringBuilder();
         final StringBuilder sbUriTypes = new StringBuilder();
@@ -620,6 +625,9 @@ public class DatabaseGenerator {
         if (useSqlCipher) {
             providerString = providerString.replace("android.database.sqlite."
                     , "net.sqlcipher.database.");
+        } else if (customDatabaseClassImport != null && !customDatabaseClassImport.isEmpty()) {
+            providerString = providerString.replace("android.database.sqlite."
+                    , customDatabaseClassImport);
         }
 
         FileCache.saveFile(PathUtils.getAndroidFullPath(fileName, classPackage, providerFolder)
