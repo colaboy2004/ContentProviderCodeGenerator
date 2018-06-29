@@ -122,6 +122,7 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
 
         @Override
         public void onOpen(SQLiteDatabase db) {
+            dbOnOpen(db);
         }
     }
 
@@ -397,6 +398,15 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
      * @param newVersion	new version
      */
     protected void dbOnUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // No default implementation
+    }
+
+    /**
+     * Called inside database onOpen method.
+     * Implement this method to execute addition SQL commands such as drop triggers
+     * @param db            database
+     */
+    protected void dbOnOpen(SQLiteDatabase db) {
         // No default implementation
     }
 
