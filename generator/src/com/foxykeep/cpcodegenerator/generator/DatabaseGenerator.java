@@ -292,6 +292,7 @@ public class DatabaseGenerator {
                     sbUpgradeTableCreateTmpTablePrimaryKey.setLength(0);
                     sbUpgradeTableInsertFields.setLength(0);
                     sbUpgradeTableInsertDefaultValues.setLength(0);
+                    sbUpgradeTableCreateTmpTableUnique.setLength(0);
                     hasPreviousUpgradeElements = false;
                     hasPreviousInsertFields = false;
                     hasPreviousInsertDefaultValues = false;
