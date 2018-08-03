@@ -20,6 +20,8 @@ import android.util.Log;
  * <p>
  * Do not modify this class
  */
+ @SuppressWarnings({"squid:S1192", "squid:S00115", "squid:S1854", "squid:S3776",
+        "StringBufferReplaceableByString", "UnusedAssignment"})
 public abstract class %2$sContent {
 
     public static final Uri CONTENT_URI = Uri.parse("content://" + %2$sProvider.AUTHORITY);
