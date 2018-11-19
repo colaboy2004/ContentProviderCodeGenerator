@@ -119,6 +119,7 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
             // Upgrade all tables here; each class has its own method
+            dbOnPreUpgrade(db, oldVersion, newVersion);
 %7$s            dbOnUpgrade(db, oldVersion, newVersion);
         }
 
@@ -400,6 +401,17 @@ public %16$s%14$sclass %3$sProvider extends ContentProvider {
      * @param newVersion	new version
      */
     protected void dbOnUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // No default implementation
+    }
+
+    /**
+     * Called inside database onUpgrade method.
+     * Implement this method to execute SQL commands before any table upgrade is performed
+     * @param db 			database
+     * @param oldVersion	old version
+     * @param newVersion	new version
+     */
+    protected void dbOnPreUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // No default implementation
     }
 
